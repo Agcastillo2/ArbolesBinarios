@@ -8,10 +8,10 @@
 #if !defined(__ArbolesBinarios_Nodo_h)
 #define __ArbolesBinarios_Nodo_h
 
-template<class T>
+typedef int T;
+//#include "Arbol.h"
 class Nodo
 {
-	
 	
 public:
    T getDato(void) const;
@@ -20,18 +20,14 @@ public:
    void setIzq(Nodo* newIzq);
    Nodo* getDer(void) const;
    void setDer(Nodo* newDer);
-   Nodo(T);
-   Nodo();
+   Nodo(int);
    ~Nodo();
    //Nodo(T dato, Nodo* izq, Nodo* der);
    
-   
-
-protected:
 private:
-   T dato;
-   Nodo* izq;
-   Nodo* der;
+   	int dato;
+	Nodo* izq;
+   	Nodo* der;
 
 
 };

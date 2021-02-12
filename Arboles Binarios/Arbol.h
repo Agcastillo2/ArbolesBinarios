@@ -10,24 +10,21 @@
 
 #include "Nodo.h"
 
-template<class T>
 class Arbol
 {
 public:
-   void incercion(T dato,Nodo<T>* arbol = NULL);
-   void imprimir(Nodo<T>* r = NULL);
-   void insertar(T);
-   Nodo<T>*  insertar(T,Nodo<T>*);
-   bool vacio();
-   Arbol();
-   ~Arbol();
-   Nodo<T>* getRaiz(void);
-   void setRaiz(Nodo<T>* newRaiz);
-   //Arbol(Nodo<T>* raiz);
 
-protected:
+	Arbol();
+   	void insertar(int);
+   	void insertar(Nodo * , int dato);
+   	bool vacio();
+   	Nodo* getRaiz(void);
+   	void setRaiz(Nodo* newRaiz);
+   	void inorder(Nodo* nodo);
+	void eliminar(Nodo * nodo, int );
+	
 private:
-   Nodo<T>* raiz;
+   Nodo * raiz;
 
 
 };
