@@ -1,16 +1,13 @@
-#include <stdio.h>
 #include <iostream>
-#include "Arbol.cpp"
-#include "Nodo.cpp"
-
+#include "Menu.h"
 using namespace std;
 
-int main(){
-	Arbol<int> arb;
-	Nodo<int>*ap;
-	ap=arb.getRaiz();
-	arb.incercion(ap);
-	ap=arb.getRaiz();
-	arb.imprimir(ap);
-	return 0;
+
+
+int main(int argc, char** argv)
+{
+	Menu objMenu;
+	objMenu.menuOpciones();
+	system("pause");
+    return 0;
 }
