@@ -1,129 +1,110 @@
-/***********************************************************************
- * Module:  Arbol.cpp
- * Author:  aange
- * Modified: martes, 9 de febrero de 2021 21:58:57
- * Purpose: Implementation of the class Arbol
- ***********************************************************************/
-#include <cstddef>
 #include <iostream>
 #include "Arbol.h"
 
 using namespace std;
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::incercion(T dato)
-// Purpose:    Implementation of Arbol::incercion()
-// Parameters:
-// - dato
-// Return:     void
-////////////////////////////////////////////////////////////////////////
 
 template<class T>
-void Arbol<T>::incercion(Nodo<T>* actual)
+ArbolBB<T>::ArbolBB()
 {
-	char resp;
-	int dato;
-	actual= new Nodo<T>;
-	cout<<"Ingrese el dato"<<endl;
-	cin>> dato;
-	actual->setDato(dato);
-	cout<<"Tiene hijo izquierdo(s/n)"<<endl;
-	cin>> resp;
-	if(resp=='s'){
-		incercion(actual->getIzq());
-		actual->setIzq(this->getRaiz());
+	raiz = NULL;
+}
+
+template<class T>
+Nodo<T>* ArbolBB<T>::getRaiz()
+{
+	return raiz;
+}
+
+template<class T>
+void ArbolBB<T>::setRaiz(Nodo<T>*& newRaiz)
+{
+	this->raiz = newRaiz;
+}
+
+template<class T>
+Nodo<T>* ArbolBB<T>::crearNodo(T dato)
+{
+	Nodo<T>* nuevoNodo = new Nodo<T>();
+	nuevoNodo->setDato(dato);
+	nuevoNodo->setIzquierda(NULL);
+	nuevoNodo->setDerecha(NULL);
+	return nuevoNodo;
+}
+
+template<class T>
+void ArbolBB<T>::insertarNodo(Nodo<T>*& arbol, T dato)
+{
+	if (arbol == NULL)
+	{
+		Nodo<T>* newNodo = crearNodo(dato);
+		arbol = newNodo;
 	}
-	cout<<"Tiene hijo derecho(s/n)"<<endl;
-	cin>> resp;
-	if(resp=='s'){
-		incercion(actual->getDer());
-		actual->setDer(this->getRaiz());
+	else
+	{
+		int valorRaiz = arbol->getDato();
+		if (dato < valorRaiz) {
+			insertarNodo(arbol->getIzquierda(), dato);
+		}
+		else {
+			insertarNodo(arbol->getDerecha(), dato);
+		}
 	}
-	this->setRaiz(actual);
-}
-
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::imprimir()
-// Purpose:    Implementation of Arbol::imprimir()
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-template<class T>
-void Arbol<T>::imprimir(Nodo<T>* actual)
-{
-  	if(actual){
-  		if(actual->getIzq()){
-  			cout<<actual->getIzq()->getDato();
-  			imprimir(actual->getIzq());
-		  }
-		  //cout<<actual->getDer()->getDato();
-		  imprimir(actual->getDer());
-	  }
 }
 
 template<class T>
-bool Arbol<T>::vacio(void)
+void ArbolBB<T>::inOrden(Nodo<T>* arbol)
 {
-	return(this->raiz==NULL)? true:false;
+	if (arbol != NULL) {
+		inOrden(arbol->getIzquierda());
+		cout << arbol->getDato() << "\t";
+		inOrden(arbol->getDerecha());
+	}
 }
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::Arbol()
-// Purpose:    Implementation of Arbol::Arbol()
-// Return:     
-////////////////////////////////////////////////////////////////////////
 
 template<class T>
-Arbol<T>::Arbol()
+Nodo<T>* ArbolBB<T>::combinarArbol(Nodo<T>* izquierda, Nodo<T>* derecha)
 {
-	this->raiz=NULL;
-}
+    if(izquierda==NULL)
+        return derecha;
+    if(derecha==NULL)
+        return izquierda;
+    Nodo<T>* centro = combinarArbol(izquierda->getDerecha(), derecha->getIzquierda());
+    izquierda->getDerecha() = centro;
+    derecha->getIzquierda() = izquierda;
+    return derecha;
 
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::~Arbol()
-// Purpose:    Implementation of Arbol::~Arbol()
-// Return:     
-////////////////////////////////////////////////////////////////////////
+}
 
 template<class T>
-Arbol<T>::~Arbol()
+void ArbolBB<T>::eliminar(Nodo<T>*& arbol, T dato)
 {
+	if(arbol==NULL){
+        cout<<"No hay coincidencias"<<endl;
+        return;
+	}
+     if(dato<arbol->getDato())
+         eliminar(arbol->getIzquierda(),dato);
+     else if(dato>arbol->getDato())
+         eliminar(arbol->getDerecha(), dato);
+
+     else
+     {
+         Nodo<T>* aux = arbol;
+         arbol = combinarArbol(arbol->getIzquierda(), arbol->getDerecha());
+         delete aux;
+     }
 }
 
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::getRaiz()
-// Purpose:    Implementation of Arbol::getRaiz()
-// Return:     Nodo
-////////////////////////////////////////////////////////////////////////
-
-template<class T>
-Nodo<T>* Arbol<T>::getRaiz(void)
-{
-   return raiz;
+template <class T>
+void ArbolBB<T>::mostrarArbol(Nodo<T>* arbol,int contador){
+	if(arbol == NULL)
+		return;
+	else{
+		mostrarArbol(arbol->getDerecha(),contador+1);
+		for(int i=0; i<contador; i++){
+			std::cout<<"  ";
+		}
+		std::cout<<arbol->getDato()<<std::endl;
+		mostrarArbol(arbol->getIzquierda(),contador+1);
+	}
 }
-
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::setRaiz(Nodo newRaiz)
-// Purpose:    Implementation of Arbol::setRaiz()
-// Parameters:
-// - newRaiz
-// Return:     void
-////////////////////////////////////////////////////////////////////////
-
-template<class T>
-void Arbol<T>::setRaiz(Nodo<T>* newRaiz)
-{
-   raiz = newRaiz;
-}
-
-////////////////////////////////////////////////////////////////////////
-// Name:       Arbol::Arbol(Nodo raiz)
-// Purpose:    Implementation of Arbol::Arbol()
-// Parameters:
-// - raiz
-// Return:     
-////////////////////////////////////////////////////////////////////////
-
-/*template<class T>
-Arbol<T>::Arbol(Nodo<T>* raiz)
-{
-   this->raiz=raiz;
-}*/
