@@ -113,6 +113,21 @@ void Arbol::inorder(Nodo* nodo){
 		}
 }
 
+int Arbol::getNivelDato(Nodo* raiz, int dato, int cont) {
+	if (raiz == NULL) {
+		return cont;
+	}
+	else if (raiz->getDato() == dato) {
+		return cont;
+	}
+	else if (dato < raiz->getDato()) {
+		return getNivelDato(raiz->getIzq(), dato, cont + 1);
+	}
+	else {
+		return getNivelDato(raiz->getDer(), dato, cont + 1);
+	}
+}
+
 Arbol::Arbol(){
 	
 	this->raiz = NULL;

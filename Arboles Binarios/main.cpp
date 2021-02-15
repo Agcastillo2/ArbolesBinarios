@@ -32,6 +32,8 @@ int main(int argc, char** argv) {
 	abb.inorder(abb.getRaiz());
 	
 	//std::cout<<"\n\t\t6\n\t\t3      8\n\t1\t5\t7\t12\n0"<<std::endl;
+	//obtener el nivel del arbol de un nodo en base a su dato 
 	
+	std::cout<<std::endl<<"Nivel: "<< abb.getNivelDato(abb.getRaiz(), 12, 0);
 	return 0;
 }

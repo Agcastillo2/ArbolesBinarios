@@ -22,6 +22,7 @@ public:
    	void setRaiz(Nodo* newRaiz);
    	void inorder(Nodo* nodo);
 	void eliminar(Nodo * nodo, int );
+	int getNivelDato(Nodo*, T, int);
 	
 private:
    Nodo * raiz;
